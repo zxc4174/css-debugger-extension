@@ -8,18 +8,32 @@ if (typeof window.cssDebugger === "undefined") {
     isDarkMode: window.matchMedia("(prefers-color-scheme: dark)").matches,
   };
 
-  // Listen for toggle messages from popup
+  // Toggle the “debug” class on <html>
+  function applyGlobalOutline() {
+    document.documentElement.classList.add("css-debugger-enabled");
+  }
+  function removeGlobalOutline() {
+    document.documentElement.classList.remove("css-debugger-enabled");
+  }
+
+  // Listen for popup toggle/getStatus
   chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {
     if (request.action === "toggle") {
       window.cssDebugger.isEnabled = !window.cssDebugger.isEnabled;
-      if (!window.cssDebugger.isEnabled) removeHighlight();
+      if (window.cssDebugger.isEnabled) {
+        applyGlobalOutline();
+      } else {
+        removeGlobalOutline();
+        removeHighlight();
+        window.cssDebugger.tooltip?.remove();
+      }
       sendResponse({ enabled: window.cssDebugger.isEnabled });
     } else if (request.action === "getStatus") {
       sendResponse({ enabled: window.cssDebugger.isEnabled });
     }
   });
 
-  // Update theme (light / dark)
+  // Update tooltip theme if OS theme changes
   function applyTheme() {
     window.cssDebugger.isDarkMode = window.matchMedia(
       "(prefers-color-scheme: dark)"
@@ -28,12 +42,11 @@ if (typeof window.cssDebugger === "undefined") {
   }
   function updateTooltipTheme() {
     const tip = window.cssDebugger.tooltip;
-    if (!tip) return;
     tip.classList.toggle("dark", window.cssDebugger.isDarkMode);
     tip.classList.toggle("light", !window.cssDebugger.isDarkMode);
   }
 
-  // Add top-left label to a box
+  // Add a tiny label inside each box-model layer
   function addLabel(box, text) {
     const lbl = document.createElement("div");
     lbl.textContent = text;
@@ -45,142 +58,69 @@ if (typeof window.cssDebugger === "undefined") {
       fontWeight: "bold",
       pointerEvents: "none",
       userSelect: "none",
+      color: "#333",
     });
     box.appendChild(lbl);
   }
 
-  // Create nested box-model DOM structure
+  // Build nested box-model visualization: margin > border > padding > content
   function createBoxModelNode(margin, border, padding, content) {
-    // Wrapper
     const wrapper = document.createElement("div");
     wrapper.className = "box-model";
 
-    // 1. margin layer
-    const marginBox = document.createElement("div");
-    marginBox.className = "margin-box";
-    marginBox.style.position = "relative";
-    addLabel(marginBox, "margin");
-    ["top", "left", "right", "bottom"].forEach((pos) => {
-      const d = document.createElement("div");
-      d.textContent = `${margin[pos]}`;
-      Object.assign(d.style, {
-        position: "absolute",
-        ...(pos === "top" && {
-          top: "2px",
-          width: "100%",
-          textAlign: "center",
-        }),
-        ...(pos === "bottom" && {
-          bottom: "2px",
-          width: "100%",
-          textAlign: "center",
-        }),
-        ...(pos === "left" && {
-          left: "2px",
-          top: "50%",
-          transform: "translateY(-50%)",
-        }),
-        ...(pos === "right" && {
-          right: "2px",
-          top: "50%",
-          transform: "translateY(-50%)",
-        }),
-        color: "#333",
-        fontSize: "8px",
-        pointerEvents: "none",
-        userSelect: "none",
+    // helper to build each layer
+    function buildLayer(name, dims, className) {
+      const layer = document.createElement("div");
+      layer.className = className;
+      layer.style.position = "relative";
+      addLabel(layer, name);
+      ["top", "right", "bottom", "left"].forEach((pos) => {
+        const edge = document.createElement("div");
+        edge.textContent = `${dims[pos]}`;
+        Object.assign(edge.style, {
+          position: "absolute",
+          ...(pos === "top" && {
+            top: "2px",
+            width: "100%",
+            textAlign: "center",
+          }),
+          ...(pos === "bottom" && {
+            bottom: "2px",
+            width: "100%",
+            textAlign: "center",
+          }),
+          ...(pos === "left" && {
+            left: "2px",
+            top: "50%",
+            transform: "translateY(-50%)",
+          }),
+          ...(pos === "right" && {
+            right: "2px",
+            top: "50%",
+            transform: "translateY(-50%)",
+          }),
+          color: "#333",
+          fontSize: "8px",
+          pointerEvents: "none",
+          userSelect: "none",
+        });
+        layer.appendChild(edge);
       });
-      marginBox.appendChild(d);
-    });
+      return layer;
+    }
 
-    // 2. border layer (nested in margin)
-    const borderBox = document.createElement("div");
-    borderBox.className = "border-box";
-    borderBox.style.position = "relative";
-    addLabel(borderBox, "border");
-    ["top", "left", "right", "bottom"].forEach((pos) => {
-      const d = document.createElement("div");
-      d.textContent = `${border[pos]}`;
-      Object.assign(d.style, {
-        position: "absolute",
-        ...(pos === "top" && {
-          top: "2px",
-          width: "100%",
-          textAlign: "center",
-        }),
-        ...(pos === "bottom" && {
-          bottom: "2px",
-          width: "100%",
-          textAlign: "center",
-        }),
-        ...(pos === "left" && {
-          left: "2px",
-          top: "50%",
-          transform: "translateY(-50%)",
-        }),
-        ...(pos === "right" && {
-          right: "2px",
-          top: "50%",
-          transform: "translateY(-50%)",
-        }),
-        color: "#333",
-        fontSize: "8px",
-        pointerEvents: "none",
-        userSelect: "none",
-      });
-      borderBox.appendChild(d);
-    });
-    marginBox.appendChild(borderBox);
-
-    // 3. padding layer (nested in border)
-    const paddingBox = document.createElement("div");
-    paddingBox.className = "padding-box";
-    paddingBox.style.position = "relative";
-    addLabel(paddingBox, "padding");
-    ["top", "left", "right", "bottom"].forEach((pos) => {
-      const d = document.createElement("div");
-      d.textContent = `${padding[pos]}`;
-      Object.assign(d.style, {
-        position: "absolute",
-        ...(pos === "top" && {
-          top: "2px",
-          width: "100%",
-          textAlign: "center",
-        }),
-        ...(pos === "bottom" && {
-          bottom: "2px",
-          width: "100%",
-          textAlign: "center",
-        }),
-        ...(pos === "left" && {
-          left: "2px",
-          top: "50%",
-          transform: "translateY(-50%)",
-        }),
-        ...(pos === "right" && {
-          right: "2px",
-          top: "50%",
-          transform: "translateY(-50%)",
-        }),
-        color: "#333",
-        fontSize: "8px",
-        pointerEvents: "none",
-        userSelect: "none",
-      });
-      paddingBox.appendChild(d);
-    });
-    borderBox.appendChild(paddingBox);
-
-    // 4. content layer (nested in padding)
-    const contentBox = document.createElement("div");
-    contentBox.className = "content-box";
-    contentBox.style.position = "relative";
-    addLabel(contentBox, "content");
-    const txt = document.createElement("div");
-    txt.textContent = `${content.width.toFixed(1)} × ${content.height.toFixed(
+    const mBox = buildLayer("margin", margin, "margin-box");
+    const bBox = buildLayer("border", border, "border-box");
+    const pBox = buildLayer("padding", padding, "padding-box");
+    const cBox = document.createElement("div");
+    cBox.className = "content-box";
+    cBox.style.position = "relative";
+    addLabel(cBox, "content");
+    const cText = document.createElement("div");
+    cText.textContent = `${content.width.toFixed(1)} × ${content.height.toFixed(
       1
     )}`;
-    Object.assign(txt.style, {
+    Object.assign(cText.style, {
       position: "absolute",
       bottom: "2px",
       width: "100%",
@@ -190,19 +130,23 @@ if (typeof window.cssDebugger === "undefined") {
       pointerEvents: "none",
       userSelect: "none",
     });
-    contentBox.appendChild(txt);
-    paddingBox.appendChild(contentBox);
+    cBox.appendChild(cText);
 
-    wrapper.appendChild(marginBox);
+    // nest them
+    pBox.appendChild(cBox);
+    bBox.appendChild(pBox);
+    mBox.appendChild(bBox);
+    wrapper.appendChild(mBox);
+
     return wrapper;
   }
 
-  // Build computed CSS panel with labels colored #a626a4
+  // Build computed CSS panel (names in #a626a4)
   function appendComputedStyles(tip, cs, el) {
     const sc = document.createElement("div");
     sc.className = "scroll-container";
 
-    // Element title: only the tag/id/class string
+    // selector line
     const title = document.createElement("div");
     title.textContent =
       `${el.tagName.toLowerCase()}` +
@@ -252,37 +196,38 @@ if (typeof window.cssDebugger === "undefined") {
     tip.appendChild(sc);
   }
 
-  // Highlight element and show tooltip
+  // Highlight + tooltip only on Ctrl/Cmd + hover
   function highlightElement(e) {
     if (!window.cssDebugger.isEnabled) return;
+    if (!(e.ctrlKey || e.metaKey)) return;
     if (window.cssDebugger.tooltip?.contains(e.target)) return;
 
-    // Clear previous highlight
+    // remove previous
     if (window.cssDebugger.currentElement) {
-      window.cssDebugger.currentElement.style.outline = "";
+      window.cssDebugger.currentElement.classList.remove("css-debugger-hover");
     }
     window.cssDebugger.currentElement = e.target;
-    e.target.style.outline = "2px solid rgb(110, 55, 249)";
+    e.target.classList.add("css-debugger-hover");
     window.cssDebugger.tooltip?.remove();
 
-    // Create tooltip container
+    // build tooltip
     const tip = document.createElement("div");
     tip.classList.add(
       "css-debugger-tooltip",
       window.cssDebugger.isDarkMode ? "dark" : "light"
     );
     window.cssDebugger.tooltip = tip;
+    document.body.appendChild(tip);
 
-    // Position tooltip
+    // position it
     let x = e.clientX + 10,
       y = e.clientY + 10;
     if (x + 400 > innerWidth) x = e.clientX - 310;
     if (y + 300 > innerHeight) y = e.clientY - 210;
-    tip.style.left = `${x}px`;
-    tip.style.top = `${y}px`;
-    document.body.appendChild(tip);
+    tip.style.left = x + "px";
+    tip.style.top = y + "px";
 
-    // Get computed styles and dimensions
+    // gather metrics
     const cs = getComputedStyle(e.target);
     const r = e.target.getBoundingClientRect();
     const margin = {
@@ -310,15 +255,14 @@ if (typeof window.cssDebugger === "undefined") {
         r.height - border.top - border.bottom - padding.top - padding.bottom,
     };
 
-    // Append box model and computed styles
     tip.appendChild(createBoxModelNode(margin, border, padding, content));
     appendComputedStyles(tip, cs, e.target);
   }
 
-  // Remove highlight and tooltip
+  // Remove hover highlight + tooltip
   function removeHighlight() {
     if (window.cssDebugger.currentElement) {
-      window.cssDebugger.currentElement.style.outline = "";
+      window.cssDebugger.currentElement.classList.remove("css-debugger-hover");
       window.cssDebugger.currentElement = null;
     }
     window.cssDebugger.tooltip?.remove();

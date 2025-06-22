@@ -1,5 +1,21 @@
 /* content.css */
 
+/* When debugging is enabled, outline every element in red,
+   but exclude the tooltip itself and its descendants */
+.css-debugger-enabled *:not(.css-debugger-tooltip):not(.css-debugger-tooltip *) {
+  outline: 1px solid rgb(253, 116, 116) !important;
+}
+
+/* When hovering with Ctrl/Cmd, apply the purple hover style */
+.css-debugger-hover {
+  outline: 2px solid rgb(110, 55, 249) !important;
+  outline-offset: -2px !important;
+  z-index: 999999 !important;
+  background: rgba(110, 55, 249, 0.15) !important;
+  box-shadow: 0 0 0 2px rgb(110, 55, 249) !important;
+  background: rgba(110, 55, 249, 0.15) !important;
+}
+
 /* tooltip container */
 .css-debugger-tooltip {
   position: fixed;
