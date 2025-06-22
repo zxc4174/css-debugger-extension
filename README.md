@@ -1,17 +1,34 @@
 # CSS Debugger
 
-A Chrome extension for debugging CSS layouts by highlighting elements and displaying their box model and computed CSS properties on hover.
+A Chrome extension for debugging CSS layouts by outlining every element, and showing detailed box-model and computed CSS information on demand.
+
+## Release Notes
+
+**v1.2.0**  
+
+- **Global outline**: when enabled, every element gets a red outline for an instant layout overview.  
+- **On-demand details**: hold **Ctrl** (or **⌘** on Mac) and hover to display a draggable tooltip with nested box-model visualization and computed CSS properties.  
+- **Escape key**: press **Esc** to close the tooltip immediately.  
+- **Dark mode support**: box-model labels and values automatically switch color in light vs. dark system themes.  
 
 ## Features
 
-- **Real-time Highlighting**  
-  Hover over any element to outline it with a purple border.
-- **Visual Box Model**  
-  Nested display of margin, border, padding, and content layers, each labeled and showing numeric values.
-- **Computed CSS Panel**  
-  Shows common computed CSS properties in a scrollable panel. Property names are colored `#a626a4`, values retain default color.
+- **Global Red Outline**  
+  Click the toolbar icon to toggle a subtle red outline on _all_ elements (`.css-debugger-enabled`), so you can instantly see element boundaries.
+
+- **Ctrl/Cmd + Hover for Details**  
+  Hold **Ctrl** (Windows/Linux) or **⌘** (Mac) while hovering over an element to open a tooltip showing:
+  - **Nested Box-Model**: margin, border, padding, and content layers, each labeled and sized.  
+  - **Computed CSS Panel**: key computed styles (display, size, colors, typography, shadows, etc.) with property names in `#a626a4`.
+
+- **Draggable Tooltip**  
+  Click and drag the tooltip anywhere on the page. Cursor changes to "move" when over the tooltip.
+
+- **Escape to Close**  
+  Press **Esc** at any time to remove the tooltip (and its highlight).
+
 - **Light & Dark Themes**  
-  Automatically detects system color scheme and switches tooltip styling.
+  Tooltip background, text color, and box-model labels automatically adapt to your OS color-scheme.
 
 ## Installation
 
@@ -21,48 +38,56 @@ A Chrome extension for debugging CSS layouts by highlighting elements and displa
    git clone https://github.com/yourname/css-debugger.git
    ```
 
-2. Open Chrome and navigate to `chrome://extensions/`.
+2. Open Chrome and go to `chrome://extensions/`.
 3. Enable **Developer mode** in the top-right corner.
-4. Click **Load unpacked** and select the project's root folder.
-5. The **CSS Debugger** icon will appear in your toolbar.
+4. Click **Load unpacked** and select the `css-debugger/` folder.
+5. The **CSS Debugger** icon appears in your toolbar.
 
 ## Usage
 
-1. Click the CSS Debugger icon in the toolbar to toggle debugging mode.
-2. Hover over page elements:
+1. **Toggle Outline**
+   Click the toolbar icon (or use the shortcut **Alt+Shift+C**) to enable or disable the global red outline.
 
-   - A purple outline appears around the element.
-   - A tooltip shows up with the box model and computed CSS properties.
-3. Click the toolbar icon again to disable debugging and remove all outlines/tooltips.
+2. **Inspect Details**
+
+   - Hold **Ctrl** (Windows/Linux) or **⌘** (Mac).
+   - Hover over any element to highlight it in purple and open the tooltip.
+   - Drag the tooltip by its body to reposition it.
+   - Press **Esc** to close the tooltip.
+
+3. **Toggle Off**
+   Click the toolbar icon again (or press **Alt+Shift+C**) to remove all outlines and close any open tooltip.
 
 ## File Structure
 
-```hash
+```txt
 css-debugger/
-├── manifest.json       # Chrome extension metadata and content script registration
-├── content.js          # Main logic: mouse listeners, tooltip creation, box model & CSS panel
-├── content.css         # Tooltip and box-model styling definitions
-├── popup.html          # Simple UI for toggling debug mode
-├── popup.js            # Sends toggle/getStatus messages to content script
-└── README.md           # Project documentation
+├── manifest.json        # Extension metadata & permissions
+├── content.js           # Core logic: toggling, listeners, tooltip, box-model, drag & Esc handling
+├── content.css          # Styling: outlines, tooltip themes, box-model layers
+├── popup.html           # Toggle button UI
+├── popup.js             # Sends toggle/getStatus messages
+└── README.md            # This documentation
 ```
 
 ## Development & Contribution
 
-1. Fork the repository and create a feature branch:
+1. Fork the repo and create a feature branch:
 
    ```bash
    git checkout -b feature/your-feature
    ```
 
-2. Implement your changes and add tests if applicable.
+2. Implement changes and test in Chrome via **Load unpacked**.
 
-Contributions are welcome for:
+3. Submit a Pull Request describing your enhancement.
 
-- Supporting additional computed CSS properties
-- Improving tooltip animations and performance
-- Adding theming or localization options
+Contributions welcome for:
+
+- Additional computed CSS properties
+- Enhanced animations or performance
+- Localization or theming options
 
 ## License
 
-This project is released under the [MIT License](LICENSE). Feel free to use, modify, and distribute.
+Released under the [MIT License](LICENSE). Feel free to use, modify, and distribute.
