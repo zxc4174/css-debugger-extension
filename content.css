@@ -3,17 +3,16 @@
 /* When debugging is enabled, outline every element in red,
    but exclude the tooltip itself and its descendants */
 .css-debugger-enabled *:not(.css-debugger-tooltip):not(.css-debugger-tooltip *) {
-  outline: 1px solid rgb(253, 116, 116) !important;
+  outline: 0.7px solid rgb(253, 116, 116) !important;
 }
 
 /* When hovering with Ctrl/Cmd, apply the purple hover style */
 .css-debugger-hover {
-  outline: 2px solid rgb(110, 55, 249) !important;
+  outline: 2.5px solid rgb(110, 55, 249) !important;
   outline-offset: -2px !important;
   z-index: 999999 !important;
   background: rgba(110, 55, 249, 0.15) !important;
-  box-shadow: 0 0 0 2px rgb(110, 55, 249) !important;
-  background: rgba(110, 55, 249, 0.15) !important;
+  box-shadow: 0 0 0 2.5px rgb(110, 55, 249) !important;
 }
 
 /* tooltip container */
@@ -28,7 +27,8 @@
   padding: 10px;
   border-radius: 8px;
   z-index: 999999;
-  pointer-events: none;
+  pointer-events: auto;
+  cursor: move;
   width: 350px;
   max-width: 350px;
   overflow: auto;
@@ -41,13 +41,13 @@
 
 /* light / dark theme */
 .css-debugger-tooltip.light {
-  background: rgba(255, 255, 255, 0.3);
+  background: rgba(255, 255, 255, 0.65);
   color: #000;
   border: 1px solid rgba(0, 0, 0, 0.1);
 }
 
 .css-debugger-tooltip.dark {
-  background: rgba(0, 0, 0, 0.3);
+  background: rgba(0, 0, 0, 0.65);
   color: #fff;
   border: 1px solid rgba(255, 255, 255, 0.1);
 }
@@ -69,7 +69,7 @@
   width: 100%;
   padding: 16px 0;
   border: 1px dashed #ccc;
-  background-color: rgba(255, 165, 0, 0.1);
+  background-color: rgba(255, 166, 0, 0.2);
   box-sizing: border-box;
 }
 
@@ -80,7 +80,7 @@
   margin: 0 auto;
   padding: 16px 0;
   border: 1px solid #999;
-  background-color: rgba(128, 128, 128, 0.1);
+  background-color: rgba(128, 128, 128, 0.2);
   box-sizing: border-box;
 }
 
@@ -111,9 +111,9 @@
 .scroll-container {
   pointer-events: auto;
   width: 100%;
-  max-height: 100px;
+  max-height: 200px;
   overflow: auto;
   white-space: pre-wrap;
-  font-size: 10px;
+  font-size: 11px;
   z-index: 999999;
 }
