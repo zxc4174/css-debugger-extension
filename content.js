@@ -8,7 +8,7 @@ if (typeof window.cssDebugger === "undefined") {
     isDarkMode: window.matchMedia("(prefers-color-scheme: dark)").matches,
   };
 
-  // Toggle the “debug” class on <html>
+  // Toggle the debug outline class on <html>
   function applyGlobalOutline() {
     document.documentElement.classList.add("css-debugger-enabled");
   }
@@ -16,16 +16,15 @@ if (typeof window.cssDebugger === "undefined") {
     document.documentElement.classList.remove("css-debugger-enabled");
   }
 
-  // Listen for popup toggle/getStatus
+  // Listen for toggle/getStatus messages
   chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {
     if (request.action === "toggle") {
       window.cssDebugger.isEnabled = !window.cssDebugger.isEnabled;
       if (window.cssDebugger.isEnabled) {
         applyGlobalOutline();
       } else {
-        removeGlobalOutline();
         removeHighlight();
-        window.cssDebugger.tooltip?.remove();
+        removeGlobalOutline();
       }
       sendResponse({ enabled: window.cssDebugger.isEnabled });
     } else if (request.action === "getStatus") {
@@ -33,7 +32,7 @@ if (typeof window.cssDebugger === "undefined") {
     }
   });
 
-  // Update tooltip theme if OS theme changes
+  // React to system color‐scheme changes
   function applyTheme() {
     window.cssDebugger.isDarkMode = window.matchMedia(
       "(prefers-color-scheme: dark)"
@@ -46,7 +45,7 @@ if (typeof window.cssDebugger === "undefined") {
     tip.classList.toggle("light", !window.cssDebugger.isDarkMode);
   }
 
-  // Add a tiny label inside each box-model layer
+  // Add a label inside each box‐model layer
   function addLabel(box, text) {
     const lbl = document.createElement("div");
     lbl.textContent = text;
@@ -63,12 +62,11 @@ if (typeof window.cssDebugger === "undefined") {
     box.appendChild(lbl);
   }
 
-  // Build nested box-model visualization: margin > border > padding > content
+  // Create nested box‐model DOM: margin > border > padding > content
   function createBoxModelNode(margin, border, padding, content) {
     const wrapper = document.createElement("div");
     wrapper.className = "box-model";
 
-    // helper to build each layer
     function buildLayer(name, dims, className) {
       const layer = document.createElement("div");
       layer.className = className;
@@ -112,6 +110,7 @@ if (typeof window.cssDebugger === "undefined") {
     const mBox = buildLayer("margin", margin, "margin-box");
     const bBox = buildLayer("border", border, "border-box");
     const pBox = buildLayer("padding", padding, "padding-box");
+
     const cBox = document.createElement("div");
     cBox.className = "content-box";
     cBox.style.position = "relative";
@@ -132,7 +131,6 @@ if (typeof window.cssDebugger === "undefined") {
     });
     cBox.appendChild(cText);
 
-    // nest them
     pBox.appendChild(cBox);
     bBox.appendChild(pBox);
     mBox.appendChild(bBox);
@@ -141,12 +139,11 @@ if (typeof window.cssDebugger === "undefined") {
     return wrapper;
   }
 
-  // Build computed CSS panel (names in #a626a4)
+  // Append computed CSS panel (property names in #a626a4)
   function appendComputedStyles(tip, cs, el) {
     const sc = document.createElement("div");
     sc.className = "scroll-container";
 
-    // selector line
     const title = document.createElement("div");
     title.textContent =
       `${el.tagName.toLowerCase()}` +
@@ -196,38 +193,86 @@ if (typeof window.cssDebugger === "undefined") {
     tip.appendChild(sc);
   }
 
-  // Highlight + tooltip only on Ctrl/Cmd + hover
+  // Drag state
+  let isDragging = false,
+    dragOffsetX = 0,
+    dragOffsetY = 0;
+
+  // Make tooltip draggable
+  function makeDraggable(tip) {
+    tip.addEventListener("mousedown", (e) => {
+      if (e.button !== 0) return;
+      isDragging = true;
+      const rect = tip.getBoundingClientRect();
+      dragOffsetX = e.clientX - rect.left;
+      dragOffsetY = e.clientY - rect.top;
+      e.preventDefault();
+    });
+  }
+
+  document.addEventListener("mousemove", (e) => {
+    if (!isDragging || !window.cssDebugger.tooltip) return;
+    let x = e.clientX - dragOffsetX;
+    let y = e.clientY - dragOffsetY;
+    x = Math.max(
+      0,
+      Math.min(window.innerWidth - window.cssDebugger.tooltip.offsetWidth, x)
+    );
+    y = Math.max(
+      0,
+      Math.min(window.innerHeight - window.cssDebugger.tooltip.offsetHeight, y)
+    );
+    window.cssDebugger.tooltip.style.left = `${x}px`;
+    window.cssDebugger.tooltip.style.top = `${y}px`;
+  });
+
+  document.addEventListener("mouseup", () => {
+    if (isDragging) isDragging = false;
+  });
+
+  // Close tooltip when pressing Escape
+  document.addEventListener("keydown", (e) => {
+    if (e.key === "Escape") {
+      removeHighlight();
+    }
+  });
+
+  // Highlight + tooltip on Ctrl/Cmd + hover
   function highlightElement(e) {
     if (!window.cssDebugger.isEnabled) return;
     if (!(e.ctrlKey || e.metaKey)) return;
     if (window.cssDebugger.tooltip?.contains(e.target)) return;
 
-    // remove previous
-    if (window.cssDebugger.currentElement) {
-      window.cssDebugger.currentElement.classList.remove("css-debugger-hover");
-    }
+    // Clear previous
+    removeHighlight();
+
     window.cssDebugger.currentElement = e.target;
     e.target.classList.add("css-debugger-hover");
-    window.cssDebugger.tooltip?.remove();
 
-    // build tooltip
+    // Create tooltip
     const tip = document.createElement("div");
     tip.classList.add(
       "css-debugger-tooltip",
       window.cssDebugger.isDarkMode ? "dark" : "light"
     );
+    // Allow dragging
+    tip.style.pointerEvents = "auto";
+    tip.style.cursor = "move";
     window.cssDebugger.tooltip = tip;
     document.body.appendChild(tip);
 
-    // position it
+    // Make draggable
+    makeDraggable(tip);
+
+    // Initial position
     let x = e.clientX + 10,
       y = e.clientY + 10;
     if (x + 400 > innerWidth) x = e.clientX - 310;
     if (y + 300 > innerHeight) y = e.clientY - 210;
-    tip.style.left = x + "px";
-    tip.style.top = y + "px";
+    tip.style.left = `${x}px`;
+    tip.style.top = `${y}px`;
 
-    // gather metrics
+    // Compute metrics
     const cs = getComputedStyle(e.target);
     const r = e.target.getBoundingClientRect();
     const margin = {
@@ -259,14 +304,16 @@ if (typeof window.cssDebugger === "undefined") {
     appendComputedStyles(tip, cs, e.target);
   }
 
-  // Remove hover highlight + tooltip
+  // Remove hover highlight and tooltip
   function removeHighlight() {
     if (window.cssDebugger.currentElement) {
       window.cssDebugger.currentElement.classList.remove("css-debugger-hover");
       window.cssDebugger.currentElement = null;
     }
-    window.cssDebugger.tooltip?.remove();
-    window.cssDebugger.tooltip = null;
+    if (window.cssDebugger.tooltip) {
+      window.cssDebugger.tooltip.remove();
+      window.cssDebugger.tooltip = null;
+    }
   }
 
   document.addEventListener("mouseover", highlightElement);
