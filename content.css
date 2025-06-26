@@ -2,7 +2,7 @@
 
 /* When debugging is enabled, outline every element in red,
    but exclude the tooltip itself and its descendants */
-.css-debugger-enabled *:not(.css-debugger-tooltip):not(.css-debugger-tooltip *) {
+html.css-debugger-enabled *:not(.css-debugger-tooltip):not(.css-debugger-tooltip *) {
   outline: 0.7px solid rgb(253, 116, 116) !important;
 }
 
@@ -13,107 +13,4 @@
   z-index: 999999 !important;
   background: rgba(110, 55, 249, 0.15) !important;
   box-shadow: 0 0 0 2.5px rgb(110, 55, 249) !important;
-}
-
-/* tooltip container */
-.css-debugger-tooltip {
-  position: fixed;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  backdrop-filter: blur(20px);
-  -webkit-backdrop-filter: blur(20px);
-  padding: 10px;
-  border-radius: 8px;
-  z-index: 999999;
-  pointer-events: auto;
-  cursor: move;
-  width: 350px;
-  max-width: 350px;
-  overflow: auto;
-  font-size: 13px;
-  font-family: "SF Mono", Monaco, Inconsolata, "Roboto Mono", Consolas, "Courier New", monospace;
-  line-height: 1.5;
-  white-space: pre-wrap;
-  text-shadow: none;
-}
-
-/* light / dark theme */
-.css-debugger-tooltip.light {
-  background: rgba(255, 255, 255, 0.65);
-  color: #000;
-  border: 1px solid rgba(0, 0, 0, 0.1);
-}
-
-.css-debugger-tooltip.dark {
-  background: rgba(0, 0, 0, 0.65);
-  color: #fff;
-  border: 1px solid rgba(255, 255, 255, 0.1);
-}
-
-/* box model wrapper */
-.box-model {
-  display: flex;
-  flex-direction: column;
-  width: 90%;
-  margin: 0 auto;
-  padding: 10px;
-  font-size: 9px;
-  box-sizing: border-box;
-}
-
-/* margin layer */
-.margin-box {
-  position: relative;
-  width: 100%;
-  padding: 16px 0;
-  border: 1px dashed #ccc;
-  background-color: rgba(255, 166, 0, 0.2);
-  box-sizing: border-box;
-}
-
-/* border layer */
-.border-box {
-  position: relative;
-  width: calc(100% - 32px);
-  margin: 0 auto;
-  padding: 16px 0;
-  border: 1px solid #999;
-  background-color: rgba(128, 128, 128, 0.2);
-  box-sizing: border-box;
-}
-
-/* padding layer */
-.padding-box {
-  position: relative;
-  width: calc(100% - 32px);
-  margin: 0 auto;
-  padding: 16px 0;
-  border: 1px dashed #666;
-  background-color: rgba(0, 128, 0, 0.1);
-  box-sizing: border-box;
-}
-
-/* content layer */
-.content-box {
-  position: relative;
-  width: calc(100% - 32px);
-  margin: 0 auto;
-  padding: 8px;
-  background-color: rgba(0, 0, 255, 0.1);
-  text-align: center;
-  white-space: nowrap;
-  box-sizing: border-box;
-}
-
-/* scrollable CSS text */
-.scroll-container {
-  pointer-events: auto;
-  width: 100%;
-  max-height: 200px;
-  overflow: auto;
-  white-space: pre-wrap;
-  font-size: 11px;
-  z-index: 999999;
 }
