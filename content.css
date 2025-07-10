@@ -1,9 +1,400 @@
 /* content.css */
 
-/* When debugging is enabled, outline every element in red,
-   but exclude the tooltip itself and its descendants */
-html.css-debugger-enabled *:not(.css-debugger-tooltip):not(.css-debugger-tooltip *) {
-  outline: 0.7px solid rgb(253, 116, 116) !important;
+/* When debugging is enabled, outline every element in a different color */
+html.css-debugger-enabled body:not(.css-debugger-tooltip):not(.css-debugger-tooltip *) {
+  outline: 1px solid #2980b9 !important;
+}
+
+html.css-debugger-enabled article:not(.css-debugger-tooltip):not(.css-debugger-tooltip *) {
+  outline: 1px solid #3498db !important;
+}
+
+html.css-debugger-enabled nav:not(.css-debugger-tooltip):not(.css-debugger-tooltip *) {
+  outline: 1px solid #0088c3 !important;
+}
+
+html.css-debugger-enabled aside:not(.css-debugger-tooltip):not(.css-debugger-tooltip *) {
+  outline: 1px solid #33a0ce !important;
+}
+
+html.css-debugger-enabled section:not(.css-debugger-tooltip):not(.css-debugger-tooltip *) {
+  outline: 1px solid #66b8da !important;
+}
+
+html.css-debugger-enabled header:not(.css-debugger-tooltip):not(.css-debugger-tooltip *) {
+  outline: 1px solid #99cfe7 !important;
+}
+
+html.css-debugger-enabled footer:not(.css-debugger-tooltip):not(.css-debugger-tooltip *) {
+  outline: 1px solid #cce7f3 !important;
+}
+
+html.css-debugger-enabled h1:not(.css-debugger-tooltip):not(.css-debugger-tooltip *) {
+  outline: 1px solid #162544 !important;
+}
+
+html.css-debugger-enabled h2:not(.css-debugger-tooltip):not(.css-debugger-tooltip *) {
+  outline: 1px solid #314e6e !important;
+}
+
+html.css-debugger-enabled h3:not(.css-debugger-tooltip):not(.css-debugger-tooltip *) {
+  outline: 1px solid #3e5e85 !important;
+}
+
+html.css-debugger-enabled h4:not(.css-debugger-tooltip):not(.css-debugger-tooltip *) {
+  outline: 1px solid #449baf !important;
+}
+
+html.css-debugger-enabled h5:not(.css-debugger-tooltip):not(.css-debugger-tooltip *) {
+  outline: 1px solid #c7d1cb !important;
+}
+
+html.css-debugger-enabled h6:not(.css-debugger-tooltip):not(.css-debugger-tooltip *) {
+  outline: 1px solid #4371d0 !important;
+}
+
+html.css-debugger-enabled main:not(.css-debugger-tooltip):not(.css-debugger-tooltip *) {
+  outline: 1px solid #2f4f90 !important;
+}
+
+html.css-debugger-enabled address:not(.css-debugger-tooltip):not(.css-debugger-tooltip *) {
+  outline: 1px solid #1a2c51 !important;
+}
+
+html.css-debugger-enabled div:not(.css-debugger-tooltip):not(.css-debugger-tooltip *) {
+  outline: 1px solid #036cdb !important;
+}
+
+html.css-debugger-enabled p:not(.css-debugger-tooltip):not(.css-debugger-tooltip *) {
+  outline: 1px solid #ac050b !important;
+}
+
+html.css-debugger-enabled hr:not(.css-debugger-tooltip):not(.css-debugger-tooltip *) {
+  outline: 1px solid #ff063f !important;
+}
+
+html.css-debugger-enabled pre:not(.css-debugger-tooltip):not(.css-debugger-tooltip *) {
+  outline: 1px solid #850440 !important;
+}
+
+html.css-debugger-enabled blockquote:not(.css-debugger-tooltip):not(.css-debugger-tooltip *) {
+  outline: 1px solid #f1b8e7 !important;
+}
+
+html.css-debugger-enabled ol:not(.css-debugger-tooltip):not(.css-debugger-tooltip *) {
+  outline: 1px solid #ff050c !important;
+}
+
+html.css-debugger-enabled ul:not(.css-debugger-tooltip):not(.css-debugger-tooltip *) {
+  outline: 1px solid #d90416 !important;
+}
+
+html.css-debugger-enabled li:not(.css-debugger-tooltip):not(.css-debugger-tooltip *) {
+  outline: 1px solid #d90416 !important;
+}
+
+html.css-debugger-enabled dl:not(.css-debugger-tooltip):not(.css-debugger-tooltip *) {
+  outline: 1px solid #fd3427 !important;
+}
+
+html.css-debugger-enabled dt:not(.css-debugger-tooltip):not(.css-debugger-tooltip *) {
+  outline: 1px solid #ff0043 !important;
+}
+
+html.css-debugger-enabled dd:not(.css-debugger-tooltip):not(.css-debugger-tooltip *) {
+  outline: 1px solid #e80174 !important;
+}
+
+html.css-debugger-enabled figure:not(.css-debugger-tooltip):not(.css-debugger-tooltip *) {
+  outline: 1px solid #ff00bb !important;
+}
+
+html.css-debugger-enabled figcaption:not(.css-debugger-tooltip):not(.css-debugger-tooltip *) {
+  outline: 1px solid #bf0032 !important;
+}
+
+html.css-debugger-enabled table:not(.css-debugger-tooltip):not(.css-debugger-tooltip *) {
+  outline: 1px solid #00cc99 !important;
+}
+
+html.css-debugger-enabled caption:not(.css-debugger-tooltip):not(.css-debugger-tooltip *) {
+  outline: 1px solid #37ffc4 !important;
+}
+
+html.css-debugger-enabled thead:not(.css-debugger-tooltip):not(.css-debugger-tooltip *) {
+  outline: 1px solid #98daca !important;
+}
+
+html.css-debugger-enabled tbody:not(.css-debugger-tooltip):not(.css-debugger-tooltip *) {
+  outline: 1px solid #64a7a0 !important;
+}
+
+html.css-debugger-enabled tfoot:not(.css-debugger-tooltip):not(.css-debugger-tooltip *) {
+  outline: 1px solid #22746b !important;
+}
+
+html.css-debugger-enabled tr:not(.css-debugger-tooltip):not(.css-debugger-tooltip *) {
+  outline: 1px solid #86c0b2 !important;
+}
+
+html.css-debugger-enabled th:not(.css-debugger-tooltip):not(.css-debugger-tooltip *) {
+  outline: 1px solid #a1e7d6 !important;
+}
+
+html.css-debugger-enabled td:not(.css-debugger-tooltip):not(.css-debugger-tooltip *) {
+  outline: 1px solid #3f5a54 !important;
+}
+
+html.css-debugger-enabled col:not(.css-debugger-tooltip):not(.css-debugger-tooltip *) {
+  outline: 1px solid #6c9a8f !important;
+}
+
+html.css-debugger-enabled colgroup:not(.css-debugger-tooltip):not(.css-debugger-tooltip *) {
+  outline: 1px solid #6c9a9d !important;
+}
+
+html.css-debugger-enabled button:not(.css-debugger-tooltip):not(.css-debugger-tooltip *) {
+  outline: 1px solid #da8301 !important;
+}
+
+html.css-debugger-enabled datalist:not(.css-debugger-tooltip):not(.css-debugger-tooltip *) {
+  outline: 1px solid #c06000 !important;
+}
+
+html.css-debugger-enabled fieldset:not(.css-debugger-tooltip):not(.css-debugger-tooltip *) {
+  outline: 1px solid #d95100 !important;
+}
+
+html.css-debugger-enabled form:not(.css-debugger-tooltip):not(.css-debugger-tooltip *) {
+  outline: 1px solid #d23600 !important;
+}
+
+html.css-debugger-enabled input:not(.css-debugger-tooltip):not(.css-debugger-tooltip *) {
+  outline: 1px solid #fca600 !important;
+}
+
+html.css-debugger-enabled keygen:not(.css-debugger-tooltip):not(.css-debugger-tooltip *) {
+  outline: 1px solid #b31e00 !important;
+}
+
+html.css-debugger-enabled label:not(.css-debugger-tooltip):not(.css-debugger-tooltip *) {
+  outline: 1px solid #ee8900 !important;
+}
+
+html.css-debugger-enabled legend:not(.css-debugger-tooltip):not(.css-debugger-tooltip *) {
+  outline: 1px solid #de6d00 !important;
+}
+
+html.css-debugger-enabled meter:not(.css-debugger-tooltip):not(.css-debugger-tooltip *) {
+  outline: 1px solid #e8630c !important;
+}
+
+html.css-debugger-enabled optgroup:not(.css-debugger-tooltip):not(.css-debugger-tooltip *) {
+  outline: 1px solid #b33600 !important;
+}
+
+html.css-debugger-enabled option:not(.css-debugger-tooltip):not(.css-debugger-tooltip *) {
+  outline: 1px solid #ff8a00 !important;
+}
+
+html.css-debugger-enabled output:not(.css-debugger-tooltip):not(.css-debugger-tooltip *) {
+  outline: 1px solid #ff9619 !important;
+}
+
+html.css-debugger-enabled progress:not(.css-debugger-tooltip):not(.css-debugger-tooltip *) {
+  outline: 1px solid #e57c00 !important;
+}
+
+html.css-debugger-enabled select:not(.css-debugger-tooltip):not(.css-debugger-tooltip *) {
+  outline: 1px solid #e26e0f !important;
+}
+
+html.css-debugger-enabled textarea:not(.css-debugger-tooltip):not(.css-debugger-tooltip *) {
+  outline: 1px solid #cc5400 !important;
+}
+
+html.css-debugger-enabled details:not(.css-debugger-tooltip):not(.css-debugger-tooltip *) {
+  outline: 1px solid #33848f !important;
+}
+
+html.css-debugger-enabled summary:not(.css-debugger-tooltip):not(.css-debugger-tooltip *) {
+  outline: 1px solid #60a1a6 !important;
+}
+
+html.css-debugger-enabled command:not(.css-debugger-tooltip):not(.css-debugger-tooltip *) {
+  outline: 1px solid #438da1 !important;
+}
+
+html.css-debugger-enabled menu:not(.css-debugger-tooltip):not(.css-debugger-tooltip *) {
+  outline: 1px solid #449da6 !important;
+}
+
+html.css-debugger-enabled del:not(.css-debugger-tooltip):not(.css-debugger-tooltip *) {
+  outline: 1px solid #bf0000 !important;
+}
+
+html.css-debugger-enabled ins:not(.css-debugger-tooltip):not(.css-debugger-tooltip *) {
+  outline: 1px solid #400000 !important;
+}
+
+html.css-debugger-enabled img:not(.css-debugger-tooltip):not(.css-debugger-tooltip *) {
+  outline: 1px solid #22746b !important;
+}
+
+html.css-debugger-enabled iframe:not(.css-debugger-tooltip):not(.css-debugger-tooltip *) {
+  outline: 1px solid #64a7a0 !important;
+}
+
+html.css-debugger-enabled embed:not(.css-debugger-tooltip):not(.css-debugger-tooltip *) {
+  outline: 1px solid #98daca !important;
+}
+
+html.css-debugger-enabled object:not(.css-debugger-tooltip):not(.css-debugger-tooltip *) {
+  outline: 1px solid #00cc99 !important;
+}
+
+html.css-debugger-enabled param:not(.css-debugger-tooltip):not(.css-debugger-tooltip *) {
+  outline: 1px solid #37ffc4 !important;
+}
+
+html.css-debugger-enabled video:not(.css-debugger-tooltip):not(.css-debugger-tooltip *) {
+  outline: 1px solid #6ee866 !important;
+}
+
+html.css-debugger-enabled audio:not(.css-debugger-tooltip):not(.css-debugger-tooltip *) {
+  outline: 1px solid #027353 !important;
+}
+
+html.css-debugger-enabled source:not(.css-debugger-tooltip):not(.css-debugger-tooltip *) {
+  outline: 1px solid #012426 !important;
+}
+
+html.css-debugger-enabled canvas:not(.css-debugger-tooltip):not(.css-debugger-tooltip *) {
+  outline: 1px solid #a2f570 !important;
+}
+
+html.css-debugger-enabled track:not(.css-debugger-tooltip):not(.css-debugger-tooltip *) {
+  outline: 1px solid #59a600 !important;
+}
+
+html.css-debugger-enabled map:not(.css-debugger-tooltip):not(.css-debugger-tooltip *) {
+  outline: 1px solid #7be500 !important;
+}
+
+html.css-debugger-enabled area:not(.css-debugger-tooltip):not(.css-debugger-tooltip *) {
+  outline: 1px solid #305900 !important;
+}
+
+html.css-debugger-enabled a:not(.css-debugger-tooltip):not(.css-debugger-tooltip *) {
+  outline: 1px solid #ff62ab !important;
+}
+
+html.css-debugger-enabled em:not(.css-debugger-tooltip):not(.css-debugger-tooltip *) {
+  outline: 1px solid #800b41 !important;
+}
+
+html.css-debugger-enabled strong:not(.css-debugger-tooltip):not(.css-debugger-tooltip *) {
+  outline: 1px solid #ff1583 !important;
+}
+
+html.css-debugger-enabled i:not(.css-debugger-tooltip):not(.css-debugger-tooltip *) {
+  outline: 1px solid #803156 !important;
+}
+
+html.css-debugger-enabled b:not(.css-debugger-tooltip):not(.css-debugger-tooltip *) {
+  outline: 1px solid #cc1169 !important;
+}
+
+html.css-debugger-enabled u:not(.css-debugger-tooltip):not(.css-debugger-tooltip *) {
+  outline: 1px solid #ff0430 !important;
+}
+
+html.css-debugger-enabled s:not(.css-debugger-tooltip):not(.css-debugger-tooltip *) {
+  outline: 1px solid #f805e3 !important;
+}
+
+html.css-debugger-enabled small:not(.css-debugger-tooltip):not(.css-debugger-tooltip *) {
+  outline: 1px solid #d107b2 !important;
+}
+
+html.css-debugger-enabled abbr:not(.css-debugger-tooltip):not(.css-debugger-tooltip *) {
+  outline: 1px solid #4a0263 !important;
+}
+
+html.css-debugger-enabled q:not(.css-debugger-tooltip):not(.css-debugger-tooltip *) {
+  outline: 1px solid #240018 !important;
+}
+
+html.css-debugger-enabled cite:not(.css-debugger-tooltip):not(.css-debugger-tooltip *) {
+  outline: 1px solid #64003c !important;
+}
+
+html.css-debugger-enabled dfn:not(.css-debugger-tooltip):not(.css-debugger-tooltip *) {
+  outline: 1px solid #b4005a !important;
+}
+
+html.css-debugger-enabled sub:not(.css-debugger-tooltip):not(.css-debugger-tooltip *) {
+  outline: 1px solid #dba0c8 !important;
+}
+
+html.css-debugger-enabled sup:not(.css-debugger-tooltip):not(.css-debugger-tooltip *) {
+  outline: 1px solid #cc0256 !important;
+}
+
+html.css-debugger-enabled time:not(.css-debugger-tooltip):not(.css-debugger-tooltip *) {
+  outline: 1px solid #d6606d !important;
+}
+
+html.css-debugger-enabled code:not(.css-debugger-tooltip):not(.css-debugger-tooltip *) {
+  outline: 1px solid #e04251 !important;
+}
+
+html.css-debugger-enabled kbd:not(.css-debugger-tooltip):not(.css-debugger-tooltip *) {
+  outline: 1px solid #5e001f !important;
+}
+
+html.css-debugger-enabled samp:not(.css-debugger-tooltip):not(.css-debugger-tooltip *) {
+  outline: 1px solid #9c0033 !important;
+}
+
+html.css-debugger-enabled var:not(.css-debugger-tooltip):not(.css-debugger-tooltip *) {
+  outline: 1px solid #d90047 !important;
+}
+
+html.css-debugger-enabled mark:not(.css-debugger-tooltip):not(.css-debugger-tooltip *) {
+  outline: 1px solid #ff0053 !important;
+}
+
+html.css-debugger-enabled bdi:not(.css-debugger-tooltip):not(.css-debugger-tooltip *) {
+  outline: 1px solid #bf3668 !important;
+}
+
+html.css-debugger-enabled bdo:not(.css-debugger-tooltip):not(.css-debugger-tooltip *) {
+  outline: 1px solid #6f1400 !important;
+}
+
+html.css-debugger-enabled ruby:not(.css-debugger-tooltip):not(.css-debugger-tooltip *) {
+  outline: 1px solid #ff7b93 !important;
+}
+
+html.css-debugger-enabled rt:not(.css-debugger-tooltip):not(.css-debugger-tooltip *) {
+  outline: 1px solid #ff2f54 !important;
+}
+
+html.css-debugger-enabled rp:not(.css-debugger-tooltip):not(.css-debugger-tooltip *) {
+  outline: 1px solid #803e49 !important;
+}
+
+html.css-debugger-enabled span:not(.css-debugger-tooltip):not(.css-debugger-tooltip *) {
+  outline: 1px solid #cc2643 !important;
+}
+
+html.css-debugger-enabled br:not(.css-debugger-tooltip):not(.css-debugger-tooltip *) {
+  outline: 1px solid #db687d !important;
+}
+
+html.css-debugger-enabled wbr:not(.css-debugger-tooltip):not(.css-debugger-tooltip *) {
+  outline: 1px solid #db175b !important;
 }
 
 /* When hovering with Ctrl/Cmd, apply the purple hover style */
